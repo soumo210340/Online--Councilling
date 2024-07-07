@@ -3,7 +3,7 @@
 :root {
   --white: #FFFFFF;
   --black: #000000;
-  --accent: #EF3B3A;
+  --accent: #EF3B3A; /* Accent color */
   --form-width: 300px;
 }
 
@@ -19,8 +19,9 @@
   text-align: center;
 }
 
+/* Thumbnail */
 .thumbnail {
-  background: var(--accent);
+  background: var(--accent); /* Background color for thumbnail */
   width: 150px;
   height: 150px;
   margin: 0 auto 30px;
@@ -29,11 +30,13 @@
   box-sizing: border-box;
 }
 
+/* Thumbnail Image */
 .thumbnail img {
   display: block;
   width: 100%;
 }
 
+/* Input Fields */
 input {
   outline: 0;
   background: #f2f2f2;
@@ -46,9 +49,10 @@ input {
   font-size: 14px;
 }
 
-button {
+/* Login Button */
+.sub {
   outline: 0;
-  background: var(--accent);
+  background: var(--accent); /* Red background for the button */
   width: 100%;
   border: 0;
   padding: 15px;
@@ -59,25 +63,30 @@ button {
   cursor: pointer;
 }
 
-button:hover {
-  background: darken(var(--accent), 10%);
+/* Hover Effect for Button */
+.sub:hover {
+  background: #c62828; /* Darker red on hover */
 }
 
+/* Message Styles */
 .message {
   margin: 15px 0 0;
   color: #999;
   font-size: 12px;
 }
 
+/* Message Links */
 .message a {
-  color: var(--accent);
+  color: var(--accent); /* Red color for links */
   text-decoration: none;
 }
 
+/* Hover Effect for Message Links */
 .message a:hover {
   text-decoration: underline;
 }
 
+/* Container */
 .container {
   position: relative;
   z-index: 1;
@@ -85,11 +94,13 @@ button:hover {
   margin: 0 auto;
 }
 
+/* Info Section */
 .info {
   margin: 50px auto;
   text-align: center;
 }
 
+/* Info Heading */
 .info h1 {
   margin: 0 0 15px;
   padding: 0;
@@ -98,22 +109,26 @@ button:hover {
   color: #444;
 }
 
+/* Info Text */
 .info span {
   color: #666;
   font-size: 12px;
 }
 
+/* Info Links */
 .info span a {
   color: var(--black);
   text-decoration: none;
 }
 
+/* Hover Effect for Info Links */
 .info span a:hover {
   text-decoration: underline;
 }
 
+/* Font Awesome Icon */
 .info .fa {
-  color: var(--accent);
+  color: var(--accent); /* Red color for the icon */
 }
 
 /* Demo Purposes */
@@ -124,6 +139,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Background Overlay */
 body::before {
   content: '';
   position: fixed;
@@ -135,6 +151,7 @@ body::before {
   height: 100%;
 }
 
+/* Video Background */
 #video {
   z-index: -99;
   position: fixed;
