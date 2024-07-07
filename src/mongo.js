@@ -1,24 +1,22 @@
-const mongoose=require("mongoose")
+const mongoose = require('mongoose');
 
-mongoose.connect("mongodb://localhost:27017/LoginFormPractice")
-.then(()=>{
+mongoose.connect('mongodb://localhost:27017/LoginFormPractice')
+  .then(() => {
     console.log('mongoose connected');
-})
-.catch((e)=>{
+  })
+  .catch((e) => {
     console.log('failed');
-})
+  });
 
-const logInSchema=new mongoose.Schema({
-    name:{
-        type:String,
-        required:true
-    },
-    password:{
-        type:String,
-        required:true
-    }
-})
+const logInSchema = new mongoose.Schema({
+  name: String,
+  email: String,
+  totalMarks: String,
+  passoutYear: String,
+  fatherName: String,
+  password: String,
+});
 
-const LogInCollection=new mongoose.model('LogInCollection',logInSchema)
+const LogInCollection = mongoose.model('LogInCollection', logInSchema);
 
-module.exports=LogInCollection
+module.exports = LogInCollection;

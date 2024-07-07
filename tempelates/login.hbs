@@ -4,24 +4,37 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="css/login.css">
+    <title>Login - E-Council</title>
+    <link rel="stylesheet" href="/css/login.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-
-    <h1>Login Form</h1>
-
-    <form action="/login" method="post" >
-        <input placeholder="Name" name="name" type="text">
-        <br>
-        <input placeholder="Password" name="password" type="password">
-        <br>
-        <input class="sub" type="submit">
-     <h3>Dont have a account ?</h3>
-    <a href="/signup">Create a new account</a>
-    </form>
-
-
-    
+    <div class="container">
+        <div class="info">
+            <h1>Login</h1>
+            <span>Made with 
+                <i class="fa fa-heart"></i> by 
+                <a href="http://andytran.me">Andy Tran</a>
+            </span>
+        </div>
+        <div class="form">
+            <div class="thumbnail">
+                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/169963/hat.svg" alt="Thumbnail">
+            </div>
+            <form action="/login" method="post" class="login-form">
+                <input placeholder="Name" name="name" type="text" required>
+                <br>
+                <input placeholder="Password" name="password" type="password" required>
+                <br>
+                <input class="sub" type="submit" value="Login">
+                <p class="message">Don't have an account? 
+                    <a href="/signup">Create an account</a>
+                </p>
+            </form>
+        </div>
+        <video id="video" autoplay loop poster="polina.jpg">
+            <source src="http://andytran.me/A%20peaceful%20nature%20timelapse%20video.mp4" type="video/mp4">
+        </video>
+    </div>
 </body>
 </html>

@@ -1,148 +1,148 @@
-/* Importing Bourbon manually isn't needed in the compiled CSS as it is just a SCSS library */
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css');
+
+:root {
+  --white: #FFFFFF;
+  --black: #000000;
+  --accent: #EF3B3A;
+  --form-width: 300px;
+}
+
+/* Form */
 .form {
-    position: relative;
-    z-index: 1;
-    background: #FFFFFF;
-    max-width: 300px;
-    margin: 0 auto 100px;
-    padding: 30px;
-    border-radius: 3px; /* Mixin converted to regular CSS */
-    text-align: center;
-  }
-  
-  .form .thumbnail {
-    background: #EF3B3A;
-    width: 150px;
-    height: 150px;
-    margin: 0 auto 30px;
-    padding: 50px 30px;
-  }
-  
-  .form .thumbnail img {
-    display: block;
-    width: 100%;
-  }
-  
-  .form input {
-    outline: 0;
-    background: #F5F5F5; /* darken($white, 5%) */
-    width: 100%;
-    border: 0;
-    margin: 0 0 15px;
-    padding: 15px;
-    border-radius: 3px; /* Mixin converted to regular CSS */
-    box-sizing: border-box; /* Mixin converted to regular CSS */
-    font-size: 14px;
-  }
-  
-  .form button {
-    outline: 0;
-    background: #EF3B3A;
-    width: 100%;
-    border: 0;
-    padding: 15px;
-    border-radius: 3px; /* Mixin converted to regular CSS */
-    color: #FFFFFF;
-    font-size: 14px;
-    transition: all .3s ease; /* Mixin converted to regular CSS */
-    cursor: pointer;
-  }
-  
-  .form button:hover {
-    background: #D32F2F; /* darken($accent, 10%) */
-  }
-  
-  .form .message {
-    margin: 15px 0 0;
-    color: #B3B3B3; /* darken($white, 30%) */
-    font-size: 12px;
-  }
-  
-  .form .message a {
-    color: #EF3B3A;
-    text-decoration: none;
-  }
-  
-  .form .message a:hover {
-    text-decoration: underline; /* Added hover effect */
-  }
-  
-  .form .register-form {
-    display: none;
-  }
-  
-  .container {
-    position: relative;
-    z-index: 1;
-    max-width: 300px;
-    margin: 0 auto;
-  }
-  
-  .container:before,
-  .container:after {
-    content: '';
-    display: block;
-    clear: both;
-  }
-  
-  .container .info {
-    margin: 50px auto;
-    text-align: center;
-  }
-  
-  .container .info h1 {
-    margin: 0 0 15px;
-    padding: 0;
-    font-size: 36px;
-    font-weight: 300;
-    color: #333333; /* lighten($black, 10%) */
-  }
-  
-  .container .info span {
-    color: #666666; /* lighten($black, 30%) */
-    font-size: 12px;
-  }
-  
-  .container .info span a {
-    color: #000000;
-    text-decoration: none;
-  }
-  
-  .container .info span a:hover {
-    text-decoration: underline; /* Added hover effect */
-  }
-  
-  .container .info .fa {
-    color: #EF3B3A;
-  }
-  
-  body {
-    background: #ccc;
-    font-family: 'Roboto', sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
-  
-  body:before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    display: block;
-    background: rgba(255, 255, 255, 0.8); /* rgba($white, 0.8) */
-    width: 100%;
-    height: 100%;
-  }
-  
-  #video {
-    z-index: -99;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    min-width: 100%;
-    min-height: 100%;
-    width: auto;
-    height: auto;
-    transform: translateX(-50%) translateY(-50%);
-  }
-  
+  position: relative;
+  z-index: 1;
+  background: var(--white);
+  max-width: var(--form-width);
+  margin: 0 auto 100px;
+  padding: 30px;
+  border-radius: 3px;
+  text-align: center;
+}
+
+.thumbnail {
+  background: var(--accent);
+  width: 150px;
+  height: 150px;
+  margin: 0 auto 30px;
+  padding: 50px 30px;
+  border-radius: 50%;
+  box-sizing: border-box;
+}
+
+.thumbnail img {
+  display: block;
+  width: 100%;
+}
+
+input {
+  outline: 0;
+  background: #f2f2f2;
+  width: 100%;
+  border: 0;
+  margin: 0 0 15px;
+  padding: 15px;
+  border-radius: 3px;
+  box-sizing: border-box;
+  font-size: 14px;
+}
+
+button {
+  outline: 0;
+  background: var(--accent);
+  width: 100%;
+  border: 0;
+  padding: 15px;
+  border-radius: 3px;
+  color: var(--white);
+  font-size: 14px;
+  transition: all .3s ease;
+  cursor: pointer;
+}
+
+button:hover {
+  background: darken(var(--accent), 10%);
+}
+
+.message {
+  margin: 15px 0 0;
+  color: #999;
+  font-size: 12px;
+}
+
+.message a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.message a:hover {
+  text-decoration: underline;
+}
+
+.container {
+  position: relative;
+  z-index: 1;
+  max-width: var(--form-width);
+  margin: 0 auto;
+}
+
+.info {
+  margin: 50px auto;
+  text-align: center;
+}
+
+.info h1 {
+  margin: 0 0 15px;
+  padding: 0;
+  font-size: 36px;
+  font-weight: 300;
+  color: #444;
+}
+
+.info span {
+  color: #666;
+  font-size: 12px;
+}
+
+.info span a {
+  color: var(--black);
+  text-decoration: none;
+}
+
+.info span a:hover {
+  text-decoration: underline;
+}
+
+.info .fa {
+  color: var(--accent);
+}
+
+/* Demo Purposes */
+body {
+  background: #ccc;
+  font-family: 'Roboto', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: block;
+  background: rgba(var(--white), 0.8);
+  width: 100%;
+  height: 100%;
+}
+
+#video {
+  z-index: -99;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  transform: translateX(-50%) translateY(-50%);
+}
