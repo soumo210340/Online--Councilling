@@ -1,0 +1,13 @@
+.colleges {
+    margin-top: 20px;
+}
+
+.college {
+    padding: 10px;
+    border: 1px solid #ddd;
+    margin-bottom: 10px;
+}
+
+.college p {
+    margin: 5px 0;
+}
