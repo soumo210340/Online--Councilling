@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/css/home.css">
+  <title>Home</title>
+</head>
+<body>
+  <h1>Welcome {{name}}</h1>
+  <p>Email: {{email}}</p>
+  <p>Total Marks: {{totalMarks}}</p>
+  <p>Passout Year: {{passoutYear}}</p>
+  <p>Father's Name: {{fatherName}}</p>
+
+  <h2>Eligible Colleges</h2>
+  <ul>
+    {{#each colleges}}
+    <li>
+      <h3>{{this.name}}</h3>
+      <p>Location: {{this.location}}</p>
+      <p>Courses: {{this.courses}}</p>
+      <p>Established Year: {{this.establishedYear}}</p>
+      <p>Minimum Marks: {{this.minMarks}}</p>
+      <p>Maximum Marks: {{this.maxMarks}}</p>
+    </li>
+    {{/each}}
+  </ul>
+</body>
+</html>

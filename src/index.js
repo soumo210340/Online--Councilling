@@ -2,6 +2,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
 const LogInCollection = require('./mongo');
+const addCollegeRoutes = require('./addcollege'); // Add this line to import addcollege routes
+const College = require('../models/college'); // Add this line to import College model
 
 const app = express();
 const port = 3000;
@@ -11,10 +13,12 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, '../public')));
 
 // Set up handlebars
-app.set('views', path.join(__dirname, '../tempelates'));
+app.set('views', path.join(__dirname, '../templates'));
 app.set('view engine', 'hbs');
 
 // Routes
+app.use(addCollegeRoutes); // Add this line to use the addcollege routes
+
 app.get('/login', (req, res) => {
   res.render('login');
 });
@@ -55,12 +59,18 @@ app.get('/home', async (req, res) => {
   const user = await LogInCollection.findById(userId);
 
   if (user) {
+    const colleges = await College.find({
+      minMarks: { $lte: user.totalMarks },
+      maxMarks: { $gte: user.totalMarks },
+    });
+
     res.render('home', {
       name: user.name,
       email: user.email,
       totalMarks: user.totalMarks,
       passoutYear: user.passoutYear,
       fatherName: user.fatherName,
+      college, // Pass the filtered colleges to the template
     });
   } else {
     res.send('User not found.');

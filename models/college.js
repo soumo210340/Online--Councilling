@@ -1,20 +1,31 @@
 const mongoose = require('mongoose');
 
 const collegeSchema = new mongoose.Schema({
-    name: {
-        type: String,
-        required: true
-    },
-    location: {
-        type: String,
-        required: true
-    },
-    marksRequired: {
-        type: Number,
-        required: true
-    }
+  name: {
+    type: String,
+    required: true,
+  },
+  location: {
+    type: String,
+    required: true,
+  },
+  courses: {
+    type: [String],
+    required: true,
+  },
+  establishedYear: {
+    type: Number,
+    required: true,
+  },
+  minMarks: {
+    type: Number,
+    required: true,
+  },
+  maxMarks: {
+    type: Number,
+    required: true,}
 });
 
-const CollegeCollection = mongoose.model('CollegeCollection', collegeSchema);
+const College = mongoose.model('college', collegeSchema);
 
-module.exports = CollegeCollection;
+module.exports = College;
