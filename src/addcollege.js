@@ -1,5 +1,5 @@
 const express = require('express');
-const College = require('../models/college'); // Ensure this import is correct
+const College = require('../models/college');
 const router = express.Router();
 
 // Admin Dashboard Route
@@ -19,8 +19,13 @@ router.post('/admin', async (req, res) => {
     maxMarks,
   });
 
-  await newCollege.save();
-  res.send('College added successfully');
+  try {
+    await newCollege.save();
+    res.send('College added successfully');
+  } catch (error) {
+    console.error('Error adding college:', error);
+    res.send(`Failed to add college: ${error.message}`);
+  }
 });
 
 module.exports = router;

@@ -1,32 +1,33 @@
 const mongoose = require('mongoose');
 
-const logInSchema = new mongoose.Schema({
-    name: {
-        type: String,
-        required: true
-    },
-    password: {
-        type: String,
-        required: true
-    },
-    email: {
-        type: String,
-        required: true
-    },
-    totalMarks: {
-        type: Number,
-        required: true
-    },
-    passoutYear: {
-        type: Number,
-        required: true
-    },
-    fatherName: {
-        type: String,
-        required: true
-    }
+const collegeSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+  },
+  location: {
+    type: String,
+    required: true,
+  },
+  courses: {
+    type: [String],
+    required: true,
+  },
+  establishedYear: {
+    type: Number,
+    required: true,
+  },
+  minMarks: {
+    type: Number,
+    required: true,
+  },
+  maxMarks: {
+    type: Number,
+    required: true,
+  },
 });
 
-const LogInCollection = mongoose.model('LogInCollection', logInSchema);
+// Check if the model already exists before defining it
+const College = mongoose.models.College || mongoose.model('College', collegeSchema);
 
-module.exports = LogInCollection;
+module.exports = College;

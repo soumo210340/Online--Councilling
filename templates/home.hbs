@@ -14,17 +14,29 @@
   <p>Father's Name: {{fatherName}}</p>
 
   <h2>Eligible Colleges</h2>
-  <ul>
-    {{#each colleges}}
-    <li>
-      <h3>{{this.name}}</h3>
-      <p>Location: {{this.location}}</p>
-      <p>Courses: {{this.courses}}</p>
-      <p>Established Year: {{this.establishedYear}}</p>
-      <p>Minimum Marks: {{this.minMarks}}</p>
-      <p>Maximum Marks: {{this.maxMarks}}</p>
-    </li>
-    {{/each}}
-  </ul>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Location</th>
+        <th>Courses</th>
+        <th>Established Year</th>
+        <th>Minimum Marks</th>
+        <th>Maximum Marks</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each colleges}}
+      <tr>
+        <td>{{this.name}}</td>
+        <td>{{this.location}}</td>
+        <td>{{this.courses}}</td>
+        <td>{{this.establishedYear}}</td>
+        <td>{{this.minMarks}}</td>
+        <td>{{this.maxMarks}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
 </body>
 </html>

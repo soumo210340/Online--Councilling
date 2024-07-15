@@ -2,8 +2,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
 const LogInCollection = require('./mongo');
-const addCollegeRoutes = require('./addcollege'); // Add this line to import addcollege routes
-const College = require('../models/college'); // Add this line to import College model
+const addCollegeRoutes = require('./addcollege');
+const College = require('../models/college');
 
 const app = express();
 const port = 3000;
@@ -17,7 +17,7 @@ app.set('views', path.join(__dirname, '../templates'));
 app.set('view engine', 'hbs');
 
 // Routes
-app.use(addCollegeRoutes); // Add this line to use the addcollege routes
+app.use(addCollegeRoutes);
 
 app.get('/login', (req, res) => {
   res.render('login');
@@ -53,30 +53,30 @@ app.post('/signup', async (req, res) => {
   await newUser.save();
   res.redirect(`/home?userId=${newUser._id}`);
 });
-
 app.get('/home', async (req, res) => {
   const userId = req.query.userId;
   const user = await LogInCollection.findById(userId);
 
   if (user) {
+    // Fetch colleges where the user's totalMarks are within the min and max marks rang
     const colleges = await College.find({
       minMarks: { $lte: user.totalMarks },
       maxMarks: { $gte: user.totalMarks },
     });
 
+    // Render the home page with user data and filtered colleges
     res.render('home', {
       name: user.name,
       email: user.email,
       totalMarks: user.totalMarks,
       passoutYear: user.passoutYear,
       fatherName: user.fatherName,
-      college, // Pass the filtered colleges to the template
+      colleges, // Pass the filtered colleges to the template
     });
   } else {
     res.send('User not found.');
   }
 });
-
 app.get('/', (req, res) => {
   res.redirect('/login');
 });
