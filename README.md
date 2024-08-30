@@ -215,8 +215,8 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 For any questions or issues, please contact:
 
-- **Email:** [your-email@example.com](mailto:soumyadeepchatterjee545@gmail.com)
-- **GitHub:** [your-github-profile](https://github.com/soumo210340)
+- **Email:** (mailto:soumyadeepchatterjee545@gmail.com)
+- **GitHub:** (https://github.com/soumo210340)
 
 ## Acknowledgments
 
