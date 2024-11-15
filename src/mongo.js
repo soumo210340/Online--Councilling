@@ -17,6 +17,27 @@ const logInSchema = new mongoose.Schema({
   password: String,
 });
 
-const LogInCollection = mongoose.model('LogInCollection', logInSchema);
 
-module.exports = LogInCollection;
+// Define Subject Schema
+const subjectSchema = new mongoose.Schema({
+  name: String,
+  minMarks: Number,
+  maxMarks: Number,
+  seats: Number,
+  preferences: [String], // Array of student IDs
+});
+
+// Define College Schema
+const collegeSchema = new mongoose.Schema({
+  name: String,
+  subjects: [subjectSchema], // List of subjects offered
+});
+
+// Create Models
+const LogInCollection = mongoose.model('LogInCollection', studentSchema); // Login for students
+const College = mongoose.model('College', collegeSchema);
+
+module.exports = {
+  LogInCollection,
+  College,
+};
