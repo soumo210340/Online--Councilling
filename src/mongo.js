@@ -17,7 +17,7 @@ const logInSchema = new mongoose.Schema({
   password: String,
 });
 
-
+/*
 // Define Subject Schema
 const subjectSchema = new mongoose.Schema({
   name: String,
@@ -41,3 +41,4 @@ module.exports = {
   LogInCollection,
   College,
 };
+*/
