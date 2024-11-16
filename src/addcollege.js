@@ -1,5 +1,5 @@
 const express = require('express');
-const College = require('../models/college');
+const College = require('../models/colleges');
 const router = express.Router();
 
 // Admin Dashboard Route

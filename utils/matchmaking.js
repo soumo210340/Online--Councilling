@@ -1,66 +1,56 @@
-const Student = require('../models/student');
-const College = require('../models/college');
+const Student = require('../models/students');
+const College = require('../models/colleges');
 
-async function galeShapleyMatch() {
-  const students = await Student.find();
+async function galeShapleyMatching() {
+  // Fetch all students and colleges
+  const students = await Student.find().populate('preferences.collegeId');
   const colleges = await College.find();
 
-  const studentProposals = {}; // Track proposals made by students
-  const collegeMatches = {};  // Track matches for colleges
-
-  // Initialize structures
-  students.forEach(student => {
-    studentProposals[student._id] = [];
-  });
+  // Convert colleges to a map for easier access
+  const collegeMap = {};
   colleges.forEach(college => {
-    college.subjects.forEach(subject => {
-      collegeMatches[`${college._id}:${subject.name}`] = [];
-    });
+    collegeMap[college._id] = college;
   });
 
-  let unmatchedStudents = students.map(student => student._id);
+  // Initialize student and college matches
+  const matches = [];
+  const studentAssigned = {};  // Track if a student has been assigned a college-subject pair
 
-  // Main algorithm
-  while (unmatchedStudents.length > 0) {
-    const studentId = unmatchedStudents.shift();
-    const student = await Student.findById(studentId);
-    const nextPreference = student.preferences.find(
-      pref => !studentProposals[studentId].includes(pref)
-    );
+  students.forEach(student => {
+    for (const pref of student.preferences) {
+      const college = collegeMap[pref.collegeId];
+      const subject = college.subjects.find(s => s.name === pref.subject);
 
-    if (!nextPreference) continue; // No more preferences, skip
-
-    studentProposals[studentId].push(nextPreference);
-
-    const [collegeId, subjectName] = nextPreference.split(':');
-    const college = await College.findById(collegeId);
-    const subject = college.subjects.find(sub => sub.name === subjectName);
-
-    if (
-      subject.minMarks <= student.score &&
-      subject.maxMarks >= student.score
-    ) {
-      const currentMatches = collegeMatches[nextPreference];
-      if (currentMatches.length < subject.seats) {
-        // Accept the student
-        collegeMatches[nextPreference].push(studentId);
-      } else {
-        // Find least preferred current match
-        const allMatches = [...currentMatches, studentId];
-        allMatches.sort(
-          (a, b) => subject.preferences.indexOf(a) - subject.preferences.indexOf(b)
-        );
-        if (allMatches[allMatches.length - 1] !== studentId) {
-          unmatchedStudents.push(studentId); // Student rejected
+      if (subject && !studentAssigned[student._id]) {
+        if (
+          subject.minScore <= student.score &&
+          student.score <= subject.maxScore &&
+          subject.seats > 0
+        ) {
+          // Allocate the student to the college's subject
+          subject.rankedStudents.push({
+            studentId: student._id,
+            score: student.score,
+          });
+          subject.seats -= 1;
+          studentAssigned[student._id] = true;
+          matches.push({
+            student: student.name,
+            college: college.name,
+            subject: subject.name,
+          });
+          break; // Move to the next student after finding a match
         }
-        collegeMatches[nextPreference] = allMatches.slice(0, subject.seats);
       }
-    } else {
-      unmatchedStudents.push(studentId); // Student rejected due to criteria
     }
+  });
+
+  // Update college documents with the new rankings
+  for (const college of colleges) {
+    await college.save();
   }
 
-  return collegeMatches;
+  return matches;
 }
 
-module.exports = galeShapleyMatch;
+module.exports = galeShapleyMatching;

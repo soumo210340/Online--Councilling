@@ -1,15 +1,13 @@
 const express = require('express');
-const galeShapleyMatch = require('../utils/matchmaker');
-
+const galeShapleyMatching = require('../utils/matchmaking');
 const router = express.Router();
 
-router.get('/match', async (req, res) => {
+router.get('/matchmaking', async (req, res) => {
   try {
-    const matches = await galeShapleyMatch();
-    res.json(matches); // Send matches as JSON response
+    const matches = await galeShapleyMatching();
+    res.render('matches', { matches });
   } catch (error) {
-    console.error('Error running Gale-Shapley:', error);
-    res.status(500).send('Error during matching');
+    res.status(500).send('Error executing matchmaking algorithm');
   }
 });
 

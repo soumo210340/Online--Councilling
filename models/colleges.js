@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 
+// Define the schema for the College model
 const collegeSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -23,9 +24,16 @@ const collegeSchema = new mongoose.Schema({
   },
   maxMarks: {
     type: Number,
-    required: true,}
+    required: true,
+  },
 });
 
-const College = mongoose.model('college', collegeSchema);
+// Check if the model already exists to prevent overwriting
+let College;
+if (mongoose.models.College) {
+  College = mongoose.model('College');
+} else {
+  College = mongoose.model('College', collegeSchema);
+}
 
 module.exports = College;

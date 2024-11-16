@@ -1,9 +1,9 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
-const LogInCollection = require('./mongo');
+const LogInCollection = require('./mongo').default; // Make sure this path is correct
 const addCollegeRoutes = require('./addcollege');
-const matchingRoutes = require('./routes/matching'); // Import matching route
+const matchingRoutes = require('../routes/matching'); // Import matching route
 
 const app = express();
 const port = 3000;
@@ -20,12 +20,27 @@ app.set('view engine', 'hbs');
 app.use(addCollegeRoutes);
 app.use(matchingRoutes); // Register matching route
 
-// Existing routes
+// Render login page
 app.get('/login', (req, res) => {
   res.render('login');
 });
 
-// Other routes...
+// Handle login form submission
+app.post('/login', async (req, res) => {
+  const { name, password } = req.body;
+
+  try {
+    const user = await LogInCollection.findOne({ name, password });
+    if (user) {
+      res.redirect(`/home?userId=${user._id}`);
+    } else {
+      res.status(401).send('Login failed. Please check your credentials.');
+    }
+  } catch (error) {
+    console.error('Error during login:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
 
 // Start server
 app.listen(port, () => {

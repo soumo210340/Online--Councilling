@@ -1,10 +1,16 @@
-<h1>Match Results</h1>
-<ul>
-  {{#each matches}}
-    <li>
-      <strong>College:</strong> {{collegeId}}, 
-      <strong>Subject:</strong> {{subjectName}}, 
-      <strong>Students:</strong> {{studentIds}}
-    </li>
-  {{/each}}
-</ul>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Matching Results</title>
+  <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body>
+  <h1>Matching Results</h1>
+  <ul>
+    {{#each matches}}
+      <li>{{this.student}} matched with {{this.college}} for {{this.subject}}</li>
+    {{/each}}
+  </ul>
+</body>
+</html>
