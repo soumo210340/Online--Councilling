@@ -74,7 +74,7 @@ tr:nth-child(even) {
 
 /* Info Text */
 .info p {
-  color: #666;
+  color: #000000;
   font-size: 14px;
 }
 

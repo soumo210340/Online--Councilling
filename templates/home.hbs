@@ -20,12 +20,13 @@
       <div class="thumbnail">
         <i class="fas fa-user"></i>
       </div>
-      <h1>Welcome {{name}}</h1>
-      <p>Email: {{email}}</p>
-      <p>Total Marks: {{totalMarks}}</p>
-      <p>Passout Year: {{passoutYear}}</p>
-      <p>Father's Name: {{fatherName}}</p>
-
+      <h1>Welcome {{user.name}}</h1> 
+      <!-- Access user.name -->
+      <p>Email: {{#if user.email}}{{user.email}}{{else}}N/A{{/if}}</p>
+      <p>Total Marks: {{#if user.totalMarks}}{{user.totalMarks}}{{else}}N/A{{/if}}</p>
+      <p>Passout Year: {{#if user.passoutYear}}{{user.passoutYear}}{{else}}N/A{{/if}}</p>
+      <p>Father's Name: {{#if user.fatherName}}{{user.fatherName}}{{else}}N/A{{/if}}</p>
+      
       <!-- Colleges Table -->
       <h2>Eligible Colleges</h2>
       <table>
