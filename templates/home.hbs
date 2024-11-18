@@ -28,27 +28,43 @@
       <p>Father's Name: {{#if user.fatherName}}{{user.fatherName}}{{else}}N/A{{/if}}</p>
       
       <!-- Colleges Table -->
+
       <h2>Eligible Colleges</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>College Name</th>
-            <th>Location</th>
-            <th>Courses</th>
-            <th>Established Year</th>
-          </tr>
-        </thead>
-        <tbody>
-          {{#each colleges}}
-          <tr>
-            <td>{{this.name}}</td>
-            <td>{{this.location}}</td>
-            <td>{{this.courses}}</td>
-            <td>{{this.establishedYear}}</td>
-          </tr>
-          {{/each}}
-        </tbody>
-      </table>
+      <form action="/submitPreferences" method="POST">
+        <table>
+          <thead>
+            <tr>
+              <th>College Name</th>
+              <th>Location</th>
+              <th>Courses</th>
+              <th>Established Year</th>
+              <th>Select</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#each colleges}}
+            <tr>
+              <td>{{this.name}}</td>
+              <td>{{this.location}}</td>
+              <td>
+                <select name="preferences[{{@index}}][course]">
+                  {{#each this.courses}}
+                  <option value="{{this}}">{{this}}</option>
+                  {{/each}}
+                </select>
+              </td>
+              <td>{{this.establishedYear}}</td>
+              <td>
+                <input type="checkbox" name="preferences[{{@index}}][collegeId]" value="{{this._id}}">
+              </td>
+            </tr>
+            {{/each}}
+          </tbody>
+        </table>
+        <button type="submit">Submit Preferences</button>
+      </form>
+      
+
     </div>
   </div>
 </body>

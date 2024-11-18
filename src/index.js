@@ -3,6 +3,8 @@ require('dotenv').config(); // Load environment variables from .env file
 const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
+const submitPreferencesRoutes = require('../routes/submitPreferences');
+
 
 // Import routes and models
 const LogInCollection = require('./mongo'); // Ensure this path is correct
@@ -20,6 +22,9 @@ app.use(express.static(path.join(__dirname, '../public'))); // Serve static file
 // Set up Handlebars view engine
 app.set('views', path.join(__dirname, '../templates'));
 app.set('view engine', 'hbs');
+
+// Prefernce submition 
+app.use(submitPreferencesRoutes);
 
 // Register routes
 app.use(addCollegeRoutes); // College routes
