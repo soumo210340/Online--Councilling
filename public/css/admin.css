@@ -1,12 +1,93 @@
-/* admin.css */
+/* General Reset */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-}
-.admin-container {
-    width: 50%;
-    margin: 0 auto;
-    background: #fff;
-    padding: 20px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-}
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+    background: #f4f4f9;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+  }
+  
+  h1 {
+    text-align: center;
+    color: #444;
+    margin-bottom: 20px;
+  }
+  
+  form {
+    background: #ffffff;
+    padding: 20px 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+  }
+  
+  /* Form Labels */
+  form label {
+    font-weight: bold;
+    display: block;
+    margin: 10px 0 5px;
+    color: #555;
+  }
+  
+  /* Form Inputs */
+  form input[type="text"],
+  form input[type="number"],
+  form input[type="email"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+  }
+  
+  /* Input Focus Styles */
+  form input:focus {
+    border-color: #1e88e5;
+    outline: none;
+    box-shadow: 0 0 5px rgba(30, 136, 229, 0.3);
+  }
+  
+  /* Submit Button */
+  form button[type="submit"] {
+    background: #1e88e5;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    font-size: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  form button[type="submit"]:hover {
+    background: #1565c0;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 480px) {
+    form {
+      padding: 15px;
+    }
+  
+    form label {
+      font-size: 14px;
+    }
+  
+    form input[type="text"],
+    form input[type="number"] {
+      font-size: 13px;
+    }
+  
+    form button[type="submit"] {
+      font-size: 14px;
+    }
+  }
+  

@@ -1,5 +1,9 @@
 const mongoose = require('mongoose');
 
+// Create models
+
+
+
 // Define the schema for login collection
 const loginSchema = new mongoose.Schema({
   name: {
@@ -9,14 +13,14 @@ const loginSchema = new mongoose.Schema({
   email: {
     type: String,
     required: true,
-    unique: true // Ensure that each email is unique
+    unique: true
   },
   password: {
     type: String,
     required: true
   },
   totalMarks: {
-    type: Number, // Changed to Number from int
+    type: Number,
     required: true
   },
   passoutYear: {
@@ -29,8 +33,9 @@ const loginSchema = new mongoose.Schema({
   },
 });
 
-// Create the model with the explicit collection name 'logincollections'
+
 const LogInCollection = mongoose.model('LogInCollection', loginSchema, 'logincollections');
 
-// Export the model
-module.exports = LogInCollection;
+
+// Export models
+module.exports =  LogInCollection ;

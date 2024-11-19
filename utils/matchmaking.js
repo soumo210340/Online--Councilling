@@ -1,53 +1,25 @@
-const StudentChoice = require('../models/studentChoice');
-const CollegeCollection = require('../models/college');
+// matchmaking.js
+const LogInCollection = require('../src/mongo'); // Adjust path as needed
+const College = require('../models/colleges'); // Adjust path as needed
 
-async function galeShapleyMatchmaking() {
-  const students = await StudentChoice.find({}).populate('studentId');
-  const colleges = await CollegeCollection.find({});
+// Example of Gale-Shapley algorithm for stable matching
+async function performMatchmaking() {
+  // Get the list of colleges and students
+  const colleges = await College.find();
+  const students = await LogInCollection.find();
 
-  const studentPreferences = {};
-  const collegeSeats = {};
-  const collegePreferences = {};
-
-  // Prepare data for Gale-Shapley
-  students.forEach(student => {
-    studentPreferences[student.studentId._id] = student.choices.map(choice => choice.collegeId);
-  });
-
+  // Implement the Gale-Shapley algorithm for matchmaking
+  // This is a simplified version; adapt as per your needs
   colleges.forEach(college => {
-    collegeSeats[college._id] = college.seats || 5; // Default 5 seats
-    collegePreferences[college._id] = students.map(student => student.studentId._id);
+    let availableStudents = students.filter(student => student.selectedColleges.includes(college._id));
+
+    // Example matching logic (this is just a placeholder, adjust to your needs)
+    availableStudents.sort((a, b) => b.totalMarks - a.totalMarks);  // Sort by marks
+
+    // Assign students to colleges (simplified)
+    college.matchedStudents = availableStudents.slice(0, college.capacity); // Assuming college has a 'capacity' field
+    college.save();
   });
-
-  // Gale-Shapley Algorithm Implementation
-  const matches = {};
-  const freeStudents = Object.keys(studentPreferences);
-
-  while (freeStudents.length) {
-    const studentId = freeStudents.shift();
-    const studentPrefs = studentPreferences[studentId];
-
-    for (const collegeId of studentPrefs) {
-      if (!matches[collegeId]) matches[collegeId] = [];
-      if (matches[collegeId].length < collegeSeats[collegeId]) {
-        matches[collegeId].push(studentId);
-        break;
-      } else {
-        const worstStudent = matches[collegeId].pop(); // Pop the least preferred
-        if (collegePreferences[collegeId].indexOf(studentId) <
-            collegePreferences[collegeId].indexOf(worstStudent)) {
-          matches[collegeId].push(studentId);
-          freeStudents.push(worstStudent);
-          break;
-        } else {
-          matches[collegeId].push(worstStudent); // Keep the previous student
-        }
-      }
-    }
-  }
-
-  console.log('Final Matches:', matches);
-  return matches;
 }
 
-module.exports = galeShapleyMatchmaking;
+module.exports = performMatchmaking;

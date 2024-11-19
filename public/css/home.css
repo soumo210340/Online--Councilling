@@ -21,7 +21,7 @@
 
 /* Thumbnail */
 .thumbnail {
-  background: var(--accent); /* Background color for thumbnail */
+  background: var(--accent);
   width: 100px;
   height: 100px;
   margin: 0 auto 20px;
@@ -72,29 +72,34 @@ tr:nth-child(even) {
   color: #444;
 }
 
+/* Checkbox Styles */
+input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
 /* Info Text */
 .info p {
   color: #000000;
   font-size: 14px;
 }
 
-/* Button (if needed) */
-.sub {
-  outline: 0;
-  background: var(--accent); /* Red background for the button */
-  width: 100%;
-  border: 0;
-  padding: 15px;
-  border-radius: 3px;
-  color: var(--white);
-  font-size: 14px;
-  transition: all .3s ease;
+/* Button */
+.select-btn {
+  background-color: #ccc;
+  border: 1px solid #999;
+  color: #000;
+  padding: 5px 10px;
   cursor: pointer;
+  transition: all 0.3s ease;
 }
 
-/* Hover Effect for Button */
-.sub:hover {
-  background: #c62828; /* Darker red on hover */
+.select-btn.selected {
+  background-color: var(--accent);
+  color: white;
+  border-color: var(--accent);
+
 }
 
 /* Background Overlay */
@@ -103,15 +108,15 @@ body::before {
   position: fixed;
   top: 0;
   left: 0;
-  display: block;
-  background: rgba(var(--white), 0.8);
+  background: rgba(255, 255, 255, 0.8); /* Fix: Explicit RGB for white */
   width: 100%;
   height: 100%;
+  z-index: -1; /* Push behind all content */
 }
 
 /* Video Background */
 #video {
-  z-index: -99;
+  z-index: -2;
   position: fixed;
   top: 50%;
   left: 50%;
@@ -119,5 +124,11 @@ body::before {
   min-height: 100%;
   width: auto;
   height: auto;
-  transform: translateX(-50%) translateY(-50%);
+  transform: translate(-50%, -50%);
+}
+
+/* Fix z-index issues with the video */
+.container {
+  position: relative;
+  z-index: 1;
 }

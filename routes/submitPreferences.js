@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const StudentChoice = require('../models/studentChoice');
-const CollegeCollection = require('../models/college');
+const CollegeCollection = require('../models/colleges');
 
 // Handle preference submission
 router.post('/submitPreferences', async (req, res) => {
