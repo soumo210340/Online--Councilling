@@ -1,17 +1,8 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const userIdInput = document.getElementById("userId");
-  const userId = userIdInput ? userIdInput.value : null;
-
-  if (!userId) {
-    console.error("User ID not found");
-    alert("User ID is missing. Please log in again.");
-    return;
-  }
-
   const selectButtons = document.querySelectorAll(".select-btn");
   const selectedCollegesInput = document.getElementById("selectedColleges");
   const submitButton = document.getElementById("submit-btn");
-
+  
   let selectedColleges = [];
 
   // Handle select button clicks
@@ -39,13 +30,9 @@ document.addEventListener("DOMContentLoaded", () => {
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
 
-    // Ensure selectedColleges is populated before sending the data
-    if (selectedColleges.length === 0) {
-      alert("Please select at least one college.");
-      return;
-    }
+    const userId = form.querySelector("input[name='userId']").value;
 
-    // Format the selected colleges into the expected format (array of objects with collegeId)
+    // Ensure selectedColleges is in the correct format for backend (array of objects)
     const formattedSelectedColleges = selectedColleges.map(collegeId => ({
       collegeId: collegeId
     }));
@@ -60,17 +47,30 @@ document.addEventListener("DOMContentLoaded", () => {
         }),
       });
 
-      const result = await response.json();
+      // Check if the response is valid JSON
+      const result = await response.text(); // Use text() to inspect the raw response
+      console.log("Raw server response:", result);
 
-      if (response.ok) {
-        alert(result.message);
-        window.location.href = "/success"; // Redirect to success page after submission
-      } else {
-        alert(result.error || "Failed to submit preferences.");
+      try {
+        const parsedResult = JSON.parse(result); // Parse the response if it's valid JSON
+        if (response.ok) {
+          alert(parsedResult.message);
+          window.location.href = "/"; // Redirect to home or another page
+        } else {
+          alert(parsedResult.error || "Failed to submit preferences.");
+        }
+      } catch (error) {
+        console.error("Error parsing server response:", error);
+        alert("The server response is not valid JSON.");
       }
+
     } catch (error) {
       console.error("Error submitting preferences:", error);
-      alert("An unexpected error occurred. Please try again.");
+      alert("An unexpected error occurred.");
+      
+      // In case of an error, log the raw response body from the server
+      const errorText = await response.text();
+      console.log("Server Error Details: ", errorText);
     }
   });
 });

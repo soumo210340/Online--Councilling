@@ -18,8 +18,19 @@ async function performMatchmaking() {
 
     // Assign students to colleges (simplified)
     college.matchedStudents = availableStudents.slice(0, college.capacity); // Assuming college has a 'capacity' field
+
     college.save();
+
+    if (selectedColleges && Array.isArray(selectedColleges)) {
+      selectedColleges.includes(college._id);
+  } else {
+      console.error("selectedColleges is undefined or not an array.");
+  }
+  
   });
+  console.log("Preferences received:", preferences);
+console.log("Selected Colleges:", selectedColleges);
+
 }
 
 module.exports = performMatchmaking;

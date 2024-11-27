@@ -35,6 +35,7 @@ router.post('/submit-preferences', async (req, res) => {
     res.status(500).send('Internal Server Error');
   }
 });
+res.status(500).json({ error: 'An internal error occurred while submitting preferences.' });
 
 // Export the router
 module.exports = router;
