@@ -1,13 +1,4 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const userIdInput = document.getElementById("userId");
-  const userId = userIdInput ? userIdInput.value : null;
-
-  if (!userId) {
-    console.error("User ID not found");
-    alert("User ID is missing. Please log in again.");
-    return;
-  }
-
   const selectButtons = document.querySelectorAll(".select-btn");
   const selectedCollegesInput = document.getElementById("selectedColleges");
   const submitButton = document.getElementById("submit-btn");
@@ -19,6 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
     button.addEventListener("click", () => {
       const collegeId = button.getAttribute("data-id");
 
+      // Toggle selection state
       if (selectedColleges.includes(collegeId)) {
         selectedColleges = selectedColleges.filter((id) => id !== collegeId);
         button.textContent = "Select";
@@ -29,29 +21,31 @@ document.addEventListener("DOMContentLoaded", () => {
         button.classList.add("selected");
       }
 
+      // Update hidden input value
       selectedCollegesInput.value = JSON.stringify(selectedColleges);
+
+      // Enable or disable submit button
       submitButton.disabled = selectedColleges.length === 0;
     });
   });
 
-  // Handle form submission via Fetch API
+  // Handle form submission
   const form = document.getElementById("preferencesForm");
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
 
-    // Ensure selectedColleges is populated before sending the data
-    if (selectedColleges.length === 0) {
-      alert("Please select at least one college.");
-      return;
-    }
+    const userId = form.querySelector("input[name='userId']").value;
+    console.log("User ID: ", userId);  // Log userId
 
-    // Format the selected colleges into the expected format (array of objects with collegeId)
+    // Format the selectedColleges into an array of objects with collegeId
     const formattedSelectedColleges = selectedColleges.map(collegeId => ({
-      collegeId: collegeId
+      collegeId: collegeId  // each element will be an object with 'collegeId'
     }));
 
+    console.log("Formatted Preferences: ", formattedSelectedColleges);  // Log preferences
+
     try {
-      const response = await fetch("/submit-preferences", {
+      const response = await fetch("/student/submit-preferences", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -61,16 +55,18 @@ document.addEventListener("DOMContentLoaded", () => {
       });
 
       const result = await response.json();
+      console.log("Response from server: ", result);  // Log server response
 
       if (response.ok) {
         alert(result.message);
-        window.location.href = "/success"; // Redirect to success page after submission
+        window.location.href = "/"; // Redirect to home or another page
       } else {
-        alert(result.error || "Failed to submit preferences.");
+        console.error("Response Error:", result);
+        alert(`Error: ${result.error || "Failed to submit preferences. Please try again."}`);
       }
     } catch (error) {
       console.error("Error submitting preferences:", error);
-      alert("An unexpected error occurred. Please try again.");
+      alert(`Error: ${error.message || "There was an issue with your submission. Please try again."}`);
     }
   });
 });

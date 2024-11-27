@@ -1,25 +1,40 @@
 const express = require('express');
-const router = express.Router();
-const StudentChoice = require('../models/studentChoice');
-const CollegeCollection = require('../models/colleges');
+const mongoose = require('mongoose');
+const LogInCollection = require('../src/mongo'); // Adjust path as necessary
+const performMatchmaking = require('../utils/matchmaking'); // Matchmaking logic
 
-// Handle preference submission
-router.post('/submitPreferences', async (req, res) => {
-  const { studentId, preferences } = req.body;
+
+const router = express.Router(); // Initialize router
+
+// Handle Preference Submission
+router.post('/submit-preferences', async (req, res) => {
+  const { userId, preferences } = req.body;
+
+  // Validate userId
+  if (!mongoose.Types.ObjectId.isValid(userId)) {
+    return res.status(400).send('Invalid User ID');
+  }
 
   try {
-    // Save preferences to the database
-    const studentChoice = await StudentChoice.findOneAndUpdate(
-      { studentId }, // Find existing preferences
-      { studentId, choices: preferences }, // Update or set new preferences
-      { upsert: true, new: true } // Create new document if it doesn't exist
-    );
+    const user = await LogInCollection.findById(userId);
 
-    res.redirect('/viewAllotedCollege'); // Redirect to view allotted colleges
-  } catch (err) {
-    console.error('Error saving preferences:', err);
-    res.status(500).send('Error saving your preferences.');
+    if (!user) {
+      return res.status(404).send('User not found');
+    }
+
+    // Save selected college IDs
+    user.selectedColleges = preferences.map((pref) => pref.collegeId);
+    await user.save();
+
+    // Perform matchmaking
+    await performMatchmaking(userId, preferences);
+
+    res.redirect(`/alloted-colleges?userId=${userId}`);
+  } catch (error) {
+    console.error('Error during preference submission:', error);
+    res.status(500).send('Internal Server Error');
   }
 });
 
+// Export the router
 module.exports = router;

@@ -26,6 +26,8 @@ const collegeSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  capacity: { type: Number,
+   required: true }
 });
 
 // Check if the model already exists to prevent overwriting

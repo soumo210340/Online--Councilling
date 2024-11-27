@@ -2,183 +2,177 @@ require('dotenv').config(); // Load environment variables
 const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
-const LogInCollection = require('./mongo');  // Ensure the correct path is used
-const performMatchmaking = require('../utils/matchmaking');
-// Import the College model
-const College = require('../models/colleges'); // Adjust path to your College model
+const LogInCollection = require('./mongo'); // Ensure correct path
+const College = require('../models/colleges'); // Adjust path to College model
+const performMatchmaking = require('../utils/matchmaking'); // Ensure correct path to matchmaking
+const submitPreferencesRoutes = require('../routes/submitPreferences'); // Submit preferences route
+const matchingRoutes = require('../routes/matching'); // Matching routes
+const asyncHandler = require('express-async-handler'); // For error handling (optional)
+
+// Initialize Express
 const app = express();
-const port = process.env.PORT || 3000; // Set the port
+const port = process.env.PORT || 3000;
 
-// Serve static files from the 'public' directory
-app.use(express.static(path.join(__dirname, 'public'))); // Serving static files
+// Middleware
+app.use(express.urlencoded({ extended: true })); // Form submissions
+app.use(express.json()); // JSON data
+app.use(express.static(path.join(__dirname, '..', 'public'))); // Serve static files from the 'public' folder
+app.set('view engine', 'css');
+app.set('views', path.join(__dirname, '..', 'templates')); // Correct path to templates
 
-// Middleware to handle POST data
-app.use(express.urlencoded({ extended: true })); // For form submissions
-app.use(express.json()); // For JSON data
-
-// Static files
-app.use(express.static(path.join(__dirname, '../public'))); // Serving static files
-
-// Set up Handlebars view engine
-app.set('views', path.join(__dirname, '../templates'));
 app.set('view engine', 'hbs');
 
-// Register existing routes (your routes may be placed below as necessary)
-const submitPreferencesRoutes = require('../routes/submitPreferences');
-const matchingRoutes = require('../routes/matching');
+// Routes
+app.use(submitPreferencesRoutes); // Submit Preferences Routes
+app.use(matchingRoutes); // Matching Routes
 
-// Use your routes
-app.use(submitPreferencesRoutes);
-app.use(matchingRoutes);
+// Root Route
+app.get('/', (req, res) => res.render('login')); // Ensure login.hbs is in templates folder
 
-// Route to render the Add College form (GET)
-app.get('/admin/add-college', (req, res) => {
-  res.render('add-college'); // Renders add-college.hbs template
-});
+// Login Page
+app.get('/login', (req, res) => res.render('login')); // Ensure login.hbs is in templates folder
 
-// Route to handle form submission (POST)
-app.post('/admin/add-college', async (req, res) => {
-  const { name, location, courses, establishedYear, marksRange } = req.body;
+// Handle Login
+app.post(
+  '/login',
+  asyncHandler(async (req, res) => {
+    const { name, password } = req.body;
 
-  // Create a new College document
-  const newCollege = new College({
-    name,
-    location,
-    courses,
-    establishedYear,
-    marksRange
-  });
-
-  try {
-    // Save the college to the database
-    await newCollege.save();
-    res.redirect('/admin/add-college');  // Redirect back to the add-college form after successful submission
-  } catch (error) {
-    console.error('Error adding college:', error);
-    res.status(500).send('Internal Server Error');
-  }
-});
-
-// Route to render home page with list of colleges
-app.get('/home', async (req, res) => {
-  const userId = req.query.userId;
-
-  // Validate the userId before proceeding
-  if (!mongoose.Types.ObjectId.isValid(userId)) {
-    return res.status(400).send('Invalid User ID');
-  }
-
-  try {
-    const user = await LogInCollection.findById(userId);
-    const colleges = await College.find();  // Fetch all colleges from the database
-
-    if (user) {
-      // Render the home page and pass both user data and the list of colleges
-      res.render('home', { user, colleges });
-    } else {
-      res.status(404).send('User not found');
-    }
-  } catch (error) {
-    console.error('Error fetching user or colleges:', error);
-    res.status(500).send('Internal Server Error');
-  }
-});
-
-// Root route ("/")
-app.get('/', (req, res) => {
-  res.render('login'); // Ensure you have a 'login.hbs' template in the 'templates' folder
-});
-
-// Render login page
-app.get('/login', (req, res) => {
-  res.render('login');
-});
-
-// Handle login form submission
-app.post('/login', async (req, res) => {
-  const { name, password } = req.body;
-
-  try {
     const user = await LogInCollection.findOne({ name, password });
-    if (user) {
-      res.redirect(`/home?userId=${user._id}`);
-    } else {
-      res.status(401).send('Login failed. Please check your credentials.');
+    if (!user) {
+      return res.status(401).send('Login failed. Please check your credentials.');
     }
-  } catch (error) {
-    console.error('Error during login:', error);
-    res.status(500).send('Internal Server Error');
-  }
-});
 
-// Handle college preference submission
-app.post('/submit-preferences', async (req, res) => {
-  const userId = req.body.userId; // Assuming userId is sent with the form data
+    res.redirect(`/home?userId=${user._id}`);
+  })
+);
 
-  // Validate the userId
-  if (!mongoose.Types.ObjectId.isValid(userId)) {
-    return res.status(400).send('Invalid User ID');
-  }
+// Render Home Page with Colleges
+app.get(
+  '/home',
+  asyncHandler(async (req, res) => {
+    const userId = req.query.userId;
 
-  const selectedColleges = req.body.preferences; // This will be an array of selected colleges with courses
+    // Validate userId
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+      return res.status(400).send('Invalid User ID');
+    }
 
-  try {
     const user = await LogInCollection.findById(userId);
+    const colleges = await College.find();
 
-    if (user) {
-      user.selectedColleges = selectedColleges.map(pref => pref.collegeId); // Save the selected college IDs only
-      await user.save(); // Save the updated user preferences
-
-      // Perform matchmaking (this function should implement your matchmaking logic)
-      await performMatchmaking(userId, selectedColleges); // Pass the userId and selected preferences to matchmaking logic
-
-      // Redirect to the allotted colleges page
-      res.redirect(`/alloted-colleges?userId=${userId}`);
-    } else {
-      res.status(404).send('User not found');
+    if (!user) {
+      return res.status(404).send('User not found');
     }
-  } catch (error) {
-    console.error('Error during preference submission:', error);
-    res.status(500).send('Internal Server Error');
-  }
+
+    res.render('home', { user, colleges });
+  })
+);
+
+// Admin Add College Form (GET)
+app.get('/admin/add-college', (req, res) => {
+  res.render('add-college'); // Render add-college.hbs
 });
 
-// Display allotted colleges after matchmaking
-app.get('/alloted-colleges', async (req, res) => {
-  const userId = req.query.userId;
+// Admin Add College Form (POST)
+app.post(
+  '/admin/add-college',
+  asyncHandler(async (req, res) => {
+    const { name, location, courses, establishedYear, marksRange, capacity } = req.body;
 
-  // Validate the userId before proceeding
-  if (!mongoose.Types.ObjectId.isValid(userId)) {
-    return res.status(400).send('Invalid User ID');
+    const newCollege = new College({
+      name,
+      location,
+      courses,
+      establishedYear,
+      marksRange,
+      capacity,
+    });
+
+    await newCollege.save();
+    res.redirect('/admin/add-college');
+  })
+);
+ // Handle Preference Submission
+
+ app.post('/submit-preferences', asyncHandler(async (req, res) => {
+  const { userId, preferences } = req.body;
+  console.log("Formatted Preferences:", formattedSelectedColleges); // Add this line to log data
+  console.log("Received User ID: ", userId); // Log received userId
+  console.log("Received Preferences: ", preferences); // Log preferences data
+        
+   // Check if preferences is an array and has the expected format
+   if (!Array.isArray(preferences) || preferences.some(pref => !pref.collegeId)) {
+    return res.status(400).json({ error: 'Preferences should be an array of objects with a valid collegeId' });
   }
 
+  // Check if userId is valid
+  if (!mongoose.Types.ObjectId.isValid(userId)) {
+    console.error("Invalid User ID: ", userId); // Log invalid userId
+    return res.status(400).json({ error: 'Invalid User ID. Please check the ID and try again.' });
+  }
+
+  const user = await LogInCollection.findById(userId);
+
+  if (!user) {
+    console.error("User not found: ", userId); // Log when user is not found
+    return res.status(404).json({ error: 'User not found. Please ensure you are logged in.' });
+  }
+
+  // Save preferences
   try {
+    user.selectedColleges = preferences.map((pref) => pref.collegeId); // Update user with selected colleges
+    await user.save();  // Save the user's updated college preferences
+
+    // Perform matchmaking
+    await performMatchmaking(userId, preferences);
+
+    console.log("User preferences updated successfully"); // Log success
+    res.status(200).json({ message: "Preferences submitted successfully. Thank you!" });  // Send success message
+  } catch (error) {
+    console.error("Error saving preferences: ", error); // Log any errors during preference saving
+    res.status(500).json({ error: "An error occurred while saving your preferences. Please try again later." });
+  }
+}));
+
+
+
+
+
+// Render Allotted Colleges Page
+app.get(
+  '/alloted-colleges',
+  asyncHandler(async (req, res) => {
+    const { userId } = req.query;
+
+    // Validate userId
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+      return res.status(400).send('Invalid User ID');
+    }
+
     const user = await LogInCollection.findById(userId).populate('selectedColleges');
 
-    if (user) {
-      // Assuming allotted colleges are based on the selections or matching logic
-      const allottedColleges = user.selectedColleges;
-
-      res.render('allotedColleges', { user, allottedColleges });
-    } else {
-      res.status(404).send('User not found');
+    if (!user) {
+      return res.status(404).send('User not found');
     }
-  } catch (error) {
-    console.error('Error fetching allotted colleges:', error);
-    res.status(500).send('Internal Server Error');
-  }
+
+    res.render('allotedColleges', { user, allottedColleges: user.selectedColleges });
+  })
+);
+
+// Success Route
+app.get('/success', (req, res) => {
+  res.render('success'); // Render success.hbs
 });
 
 // Connect to MongoDB
-mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose
+  .connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
-    console.log('Database connected');
-    // Start the server after database connection
-    app.listen(port, () => {
-      console.log(`Server running on port ${port}`);
-    });
+    console.log('Connected to MongoDB');
+    app.listen(port, () => console.log(`Server running on port ${port}`));
   })
-  .catch(err => {
-    console.error('Database connection error:', err);
-    process.exit(1); // Exit process on database connection failure
+  .catch((err) => {
+    console.error('Failed to connect to MongoDB:', err);
+    process.exit(1);
   });
