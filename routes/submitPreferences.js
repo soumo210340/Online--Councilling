@@ -14,24 +14,37 @@ router.post('/submit-preferences', async (req, res) => {
   }
 
   try {
-    const user = await LogInCollection.findById(userId).populate('selectedColleges');
+    // Find the user in the database
+    const user = await LogInCollection.findById(userId);
 
     if (!user) {
       return res.status(404).json({ error: 'User not found' });
     }
 
-    if (!Array.isArray(user.selectedColleges)) {
-      user.selectedColleges = []; // Initialize if undefined
+    if (!Array.isArray(preferences) || preferences.length === 0) {
+      return res.status(400).json({ error: 'Invalid or empty preferences array' });
     }
 
-    user.selectedColleges = preferences.map(pref => mongoose.Types.ObjectId(pref.collegeId));
+    // Map and update the selectedColleges array
+    user.selectedColleges = preferences.map(pref => {
+      if (!pref.collegeId || !mongoose.Types.ObjectId.isValid(pref.collegeId)) {
+        throw new Error(`Invalid collegeId: ${pref.collegeId}`);
+      }
+      return mongoose.Types.ObjectId(pref.collegeId);
+    });
+
+    // Save the updated user document
     await user.save();
 
+    // Perform matchmaking logic
     await performMatchmaking(userId, preferences);
 
+    // Redirect to allocated colleges or send success response
     res.redirect(`/alloted-colleges?userId=${userId}`);
   } catch (error) {
-    console.error('Error during preference submission:', error);
+    console.error('Error during preference submission:', error.message);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+
+module.exports = router;

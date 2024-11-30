@@ -17,13 +17,12 @@ const port = process.env.PORT || 3000;
 app.use(express.urlencoded({ extended: true })); // Form submissions
 app.use(express.json()); // JSON data
 app.use(express.static(path.join(__dirname, '..', 'public'))); // Serve static files from the 'public' folder
-app.set('view engine', 'css');
+
+app.set('view engine', 'hbs'); // Set Handlebars as view engine
 app.set('views', path.join(__dirname, '..', 'templates')); // Correct path to templates
 
-app.set('view engine', 'hbs');
-
 // Routes
-app.use(submitPreferencesRoutes); // Submit Preferences Routes
+app.use('/api', submitPreferencesRoutes); // Ensure the route is properly prefixed
 app.use(matchingRoutes); // Matching Routes
 
 // Root Route
@@ -47,6 +46,43 @@ app.post(
   })
 );
 
+// Signup Page
+app.get('/signup', (req, res) => {
+  res.render('signup'); // Ensure signup.hbs exists in the templates folder
+});
+
+// Handle Signup Form Submission
+app.post(
+  '/signup',
+  asyncHandler(async (req, res) => {
+    const { name, email,password,fatherName, passoutYear, totalMarks } = req.body;
+
+    // Basic validation
+    if (!name || !password || !email) {
+      return res.status(400).send('All fields are required.');
+    }
+
+    // Check if the user already exists
+    const existingUser = await LogInCollection.findOne({ email });
+    if (existingUser) {
+      return res.status(409).send('User with this email already exists.');
+    }
+
+    // Create a new user
+    const newUser = new LogInCollection({
+      name,
+      password,
+      email,
+      fatherName,
+      passoutYear,
+      totalMarks,
+    });
+
+    await newUser.save();
+    res.redirect('/login'); // Redirect to login page after successful signup
+  })
+);
+
 // Render Home Page with Colleges
 app.get(
   '/home',
@@ -64,7 +100,7 @@ app.get(
     if (!user) {
       return res.status(404).send('User not found');
     }
-
+      
     res.render('home', { user, colleges });
   })
 );
@@ -93,16 +129,15 @@ app.post(
     res.redirect('/admin/add-college');
   })
 );
- // Handle Preference Submission
 
- app.post('/submit-preferences', asyncHandler(async (req, res) => {
+// Handle Preference Submission
+app.post('/submit-preferences', asyncHandler(async (req, res) => {
   const { userId, preferences } = req.body;
-  console.log("Formatted Preferences:", formattedSelectedColleges); // Add this line to log data
   console.log("Received User ID: ", userId); // Log received userId
   console.log("Received Preferences: ", preferences); // Log preferences data
-        
-   // Check if preferences is an array and has the expected format
-   if (!Array.isArray(preferences) || preferences.some(pref => !pref.collegeId)) {
+
+  // Check if preferences is an array and has the expected format
+  if (!Array.isArray(preferences) || preferences.some(pref => !pref.collegeId)) {
     return res.status(400).json({ error: 'Preferences should be an array of objects with a valid collegeId' });
   }
 
@@ -134,10 +169,6 @@ app.post(
     res.status(500).json({ error: "An error occurred while saving your preferences. Please try again later." });
   }
 }));
-
-
-
-
 
 // Render Allotted Colleges Page
 app.get(
