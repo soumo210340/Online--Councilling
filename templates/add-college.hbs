@@ -3,31 +3,33 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="/css/admin.css">
   <title>Add College</title>
+  <link rel="stylesheet" href="/css/common.css"> <!-- Added common.css -->
 </head>
 <body>
-  <h1>Add a New College</h1>
-  <form action="/admin/add-college" method="POST">
-    <label for="name">College Name:</label>
-    <input type="text" id="name" name="name" required>
+  <div class="admin-box">
+    <h1>Add a New College</h1>
+    <form action="/admin/add-college" method="POST">
+      <label for="name">College Name:</label>
+      <input type="text" id="name" name="name" required>
 
-    <label for="location">Location:</label>
-    <input type="text" id="location" name="location" required>
+      <label for="location">Location:</label>
+      <input type="text" id="location" name="location" required>
 
-    <label for="courses">Courses (comma-separated):</label>
-    <input type="text" id="courses" name="courses" required>
+      <label for="courses">Courses (comma-separated):</label>
+      <input type="text" id="courses" name="courses" required>
 
-    <label for="establishedYear">Established Year:</label>
-    <input type="number" id="establishedYear" name="establishedYear" required>
+      <label for="establishedYear">Established Year:</label>
+      <input type="number" id="establishedYear" name="establishedYear" required>
 
-    <label for="marksRange">Marks Range (e.g., 300-500):</label>
-    <input type="text" id="marksRange" name="marksRange" placeholder="Enter marks range (e.g., 300-500)" required>
+      <label for="marksRange">Marks Range (e.g., 300-500):</label>
+      <input type="text" id="marksRange" name="marksRange" placeholder="Enter marks range (e.g., 300-500)" required>
 
-    <label for="capacity">Capacity:</label>
-    <input type="number" id="capacity" name="capacity" placeholder="Enter college capacity" required>
+      <label for="capacity">Capacity:</label>
+      <input type="number" id="capacity" name="capacity" placeholder="Enter college capacity" required>
 
-    <button type="submit">Add College</button>
-  </form>
+      <button type="submit">Add College</button>
+    </form>
+  </div>
 </body>
 </html>

@@ -3,15 +3,26 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="/css/alloted.css">
   <title>Allotted Colleges</title>
+  <link rel="stylesheet" href="/css/common.css"> <!-- Added common.css -->
 </head>
 <body>
-  <h1>Allotted Colleges</h1>
-  <ul>
-    {{#each allotedColleges}}
-      <li>{{this}}</li>
-    {{/each}}
-  </ul>
+  <h1>Allotted Colleges for Students</h1>
+  {{#if allocatedColleges}}
+    <ul>
+      {{#each allocatedColleges}}
+        <li>
+          <strong>{{this.studentName}}</strong> is allocated to the following colleges:
+          <ul>
+            {{#each this.allocatedColleges}}
+              <li>{{this}}</li>
+            {{/each}}
+          </ul>
+        </li>
+      {{/each}}
+    </ul>
+  {{else}}
+    <p>No students allocated yet.</p>
+  {{/if}}
 </body>
 </html>

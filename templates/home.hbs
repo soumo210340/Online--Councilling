@@ -1,37 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="/css/home.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Home</title>
+  <link rel="stylesheet" href="/css/common.css"> <!-- Added common.css -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+  />
 </head>
 <body>
-  <!-- Background Video (optional) -->
+  <!-- Background Video -->
   <video id="video" autoplay loop muted>
-    <source src="https://www.example.com/path/to/your/video.mp4" type="video/mp4">
+    <source src="https://www.example.com/path/to/your/video.mp4" type="video/mp4" />
     Your browser does not support the video tag.
   </video>
 
-  <div class="container">
-    <!-- User Info Section -->
-    <div class="info">
+  <div class="home-box" style="align-items: flex-start;">
+    <!-- User Info Section at the very top -->
+    <div class="info" style="max-width: 960px; margin: 0 auto 30px auto;">
       <div class="thumbnail">
         <i class="fas fa-user"></i>
       </div>
-      <h1>Welcome {{user.name}}</h1> 
-      <p>Email: {{#if user.email}}{{user.email}}{{else}}N/A{{/if}}</p>
-      <p>Total Marks: {{#if user.totalMarks}}{{user.totalMarks}}{{else}}N/A{{/if}}</p>
-      <p>Passout Year: {{#if user.passoutYear}}{{user.passoutYear}}{{else}}N/A{{/if}}</p>
-      <p>Father's Name: {{#if user.fatherName}}{{user.fatherName}}{{else}}N/A{{/if}}</p>
-      
-      <!-- Colleges Table -->
-      <h2>Eligible Colleges</h2>
-      <form action="/submit-preferences" method="POST" id="preferencesForm">
-        <input type="hidden" name="userId" value="{{user._id}}">
+      <h1>Welcome {{user.name}}</h1>
+      <p><strong>Email:</strong> <strong>{{user.email}}</strong></p>
+      <p><strong>Total Marks:</strong> <strong>{{user.totalMarks}}</strong></p>
+      <p><strong>Passout Year:</strong> <strong>{{user.passoutYear}}</strong></p>
+      <p><strong>Father's Name:</strong> <strong>{{user.fatherName}}</strong></p>
+    </div>
 
-        <table>
+    <!-- Colleges Table and Submit Button directly below personal details -->
+    <h2>Eligible Colleges and Set Priorities</h2>
+    <form id="preferencesForm" method="POST" action="/submit-preferences">
+      <input type="hidden" name="userId" value="{{user._id}}">
+
+      <table>
           <thead>
             <tr>
               <th>College Name</th>
@@ -40,34 +44,43 @@
               <th>Established Year</th>
               <th>Marks Range</th>
               <th>Select</th>
+              <th>Priority</th>
             </tr>
           </thead>
           <tbody>
             {{#each colleges}}
-              <tr>
-                <td>{{this.name}}</td> <!-- College Name -->
-                <td>{{this.location}}</td> <!-- College Location -->
-                <td>{{#if this.courses}}{{this.courses}}{{else}}No courses available{{/if}}</td> <!-- Available Courses -->
-                <td>{{this.establishedYear}}</td> <!-- Established Year -->
-                <td>{{this.marksRange}}</td> <!-- Marks Range -->
-                <td>
-                  <button type="button" class="select-btn" data-id="{{this._id}}">Select</button>
-                </td>
-              </tr>
+            <tr>
+              <td>{{this.name}}</td>
+              <td>{{this.location}}</td>
+              <td>{{this.courses}}</td>
+              <td>{{this.establishedYear}}</td>
+              <td>{{this.marksRange}}</td>
+              <td>
+                <button type="button" class="select-btn" data-id="{{this._id}}">Select</button>
+              </td>
+              <td>
+                <input type="number" name="preferences[{{this._id}}]" min="1" placeholder="Set Priority">
+              </td>
+            </tr>
             {{/each}}
           </tbody>
         </table>
-        
-        <!-- Hidden input to store selected colleges -->
-        <input type="hidden" name="selectedColleges" id="selectedColleges" value="[]">
+
         <button type="submit" id="submit-btn" disabled>Submit Preferences</button>
-      
-        
       </form>
     </div>
   </div>
 
-  <!-- Include the JavaScript File -->
+  <!-- Embed colleges data for JavaScript -->
+  <script id="collegesData" type="application/json">
+    {{{json colleges}}}
+  </script>
+
+  <!-- JavaScript Logic -->
   <script src="/js/home.js"></script>
+  <footer class="footer">
+    &copy; {{year}} E-Counseling Portal. All rights reserved.<br>
+    Made with <i class="fa fa-heart" style="color:#e25555;"></i> by <strong>Soumo</strong>
+  </footer>
 </body>
 </html>

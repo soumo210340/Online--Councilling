@@ -3,14 +3,29 @@
 <head>
   <meta charset="UTF-8">
   <title>Matching Results</title>
-  <link rel="stylesheet" href="/css/admin.css">
+  <link rel="stylesheet" href="/css/common.css"> <!-- Added common.css -->
 </head>
 <body>
   <h1>Matching Results</h1>
-  <ul>
+  {{#if matches.length}}
     {{#each matches}}
-      <li>{{this.student}} matched with {{this.college}} for {{this.subject}}</li>
+      <div>
+        <h2>{{this.name}}</h2> <!-- College Name -->
+        {{#if this.matchedStudents.length}}
+          <p>Matched Students:</p> <!-- Changed title slightly -->
+          <ul>
+            {{#each this.matchedStudents}}
+              <li>{{this.name}} (ID: {{this._id}})</li> <!-- Display student name and ID -->
+            {{/each}}
+          </ul>
+        {{else}}
+          <p>No students matched to this college.</p>
+        {{/if}}
+      </div>
+      <hr>
     {{/each}}
-  </ul>
+  {{else}}
+    <p>No matching results available or no colleges found.</p>
+  {{/if}}
 </body>
 </html>

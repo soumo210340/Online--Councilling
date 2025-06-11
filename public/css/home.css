@@ -1,44 +1,4 @@
-@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css');
 
-:root {
-  --white: #FFFFFF;
-  --black: #000000;
-  --accent: #EF3B3A; /* Accent color */
-  --form-width: 800px;
-}
-
-/* Form */
-.form {
-  position: relative;
-  z-index: 1;
-  background: var(--white);
-  max-width: var(--form-width);
-  margin: 50px auto;
-  padding: 30px;
-  border-radius: 3px;
-  text-align: center;
-}
-
-/* Thumbnail */
-.thumbnail {
-  background: var(--accent);
-  width: 100px;
-  height: 100px;
-  margin: 0 auto 20px;
-  padding: 30px;
-  border-radius: 50%;
-  box-sizing: border-box;
-  color: var(--white);
-  font-size: 2em;
-}
-
-/* Thumbnail Image */
-.thumbnail img {
-  display: block;
-  width: 100%;
-}
-
-/* Table Styles */
 table {
   width: 100%;
   border-collapse: collapse;

@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
 
-
-
+// Destructure Schema from mongoose
+const { Schema } = mongoose;
 
 // Define the schema for login collection
-const loginSchema = new mongoose.Schema({
+const loginSchema = new Schema({
   name: {
     type: String,
     required: true
@@ -30,12 +30,16 @@ const loginSchema = new mongoose.Schema({
     type: String,
     required: false
   },
-  selectedColleges: [{ type: Schema.Types.ObjectId, ref: 'College' }] // Use ObjectId referencing 'College'
+  selectedColleges: [
+    {
+      college: { type: Schema.Types.ObjectId, ref: 'College', required: true },
+      priority: { type: Number, required: true, min: 1 }
+    }
+  ]
 });
 
-
+// Define the model
 const LogInCollection = mongoose.model('LogInCollection', loginSchema, 'logincollections');
 
-
-// Export models
-module.exports =  LogInCollection ;
+// Export the model
+module.exports = LogInCollection;

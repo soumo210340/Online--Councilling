@@ -1,0 +1,176 @@
+/* ===== Reset & Base Styling ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #e0f7fa, #f0f4ff);
+  color: #333;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  transition: background 0.3s ease;
+}
+
+/* ===== Container ===== */
+.container {
+  max-width: 960px;
+  margin: auto;
+  background: #ffffff;
+  padding: 40px;
+  border-radius: 18px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.container:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+}
+
+/* ===== Headers ===== */
+h1, h2, h3 {
+  color: #003366;
+  margin-bottom: 20px;
+  font-weight: 700;
+  text-align: center;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* ===== Form Elements ===== */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+select,
+textarea {
+  padding: 14px 16px;
+  border-radius: 12px;
+  border: 1px solid #ccc;
+  font-size: 1em;
+  background-color: #f8f9fa;
+  transition: border 0.3s ease, box-shadow 0.3s ease;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: #1e90ff;
+  box-shadow: 0 0 12px rgba(30, 144, 255, 0.3);
+  background-color: #fff;
+}
+
+/* ===== Buttons ===== */
+button, .btn {
+  background: linear-gradient(to right, #1e90ff, #007bff);
+  color: #fff;
+  padding: 14px 22px;
+  font-weight: 600;
+  font-size: 1rem;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.3s ease;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+button:hover, .btn:hover {
+  background: linear-gradient(to right, #007bff, #0056b3);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* ===== Tables ===== */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 25px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+th, td {
+  padding: 16px;
+  text-align: left;
+}
+
+th {
+  background-color: #007acc;
+  color: white;
+  font-weight: 600;
+}
+
+td {
+  background-color: #f7fbff;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+/* ===== Alerts ===== */
+.success {
+  background-color: #d1f3dc;
+  color: #146c43;
+  padding: 14px 20px;
+  border-left: 6px solid #28a745;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.error {
+  background-color: #fcebea;
+  color: #b02a37;
+  padding: 14px 20px;
+  border-left: 6px solid #dc3545;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* ===== Utility ===== */
+.text-center {
+  text-align: center;
+}
+.mt-2 { margin-top: 20px; }
+.mb-2 { margin-bottom: 20px; }
+.p-2 { padding: 20px; }
+.rounded { border-radius: 10px; }
+
+.footer {
+  margin-top: auto;
+  text-align: center;
+  padding: 18px;
+  font-size: 0.95em;
+  color: #666;
+}
+
+/* ===== Auth Boxes ===== */
+.login-box, .signup-box, .admin-box {
+  width: 420px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+  padding: 35px;
+  margin-top: 50px;
+  transition: all 0.3s ease-in-out;
+}
+
+.login-box:hover, .signup-box:hover, .admin-box:hover {
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.15);
+  transform: translateY(-5px);
+}

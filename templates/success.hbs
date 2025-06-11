@@ -2,23 +2,41 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Success</title>
+  <link rel="stylesheet" href="/css/common.css"> <!-- Added common.css -->
 </head>
 <body>
-  <h1>Preferences Saved Successfully!</h1>
-  <p>Thank you for submitting your preferences. You can return to the <a href="/">home page</a>.</p>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Success</title>
-</head>
-<body>
-  <h1>Preferences Saved Successfully!</h1>
-  <p>Thank you for submitting your preferences. You can return to the <a href="/">home page</a>.</p>
+  <div class="success-box">
+    <h1> Congarts  ! Preferences Submitted Successfully!</h1>
+    <p>Thank you, {{user.name}}. Your college preferences have been recorded.</p>
+
+    {{#if selectedColleges.length}}
+      <h2>Your Selected Colleges</h2>
+      <table border="1">
+        <thead>
+          <tr>
+            <th>College Name</th>
+            <th>Location</th>
+            <th>Established Year</th>
+            <th>Courses</th>
+            <th>Marks Range</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each selectedColleges}}
+            <tr>
+              <td>{{this.name}}</td>
+              <td>{{this.location}}</td>
+              <td>{{this.establishedYear}}</td>
+              <td>{{this.courses}}</td>
+              <td>{{this.marksRange}}</td>
+            </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    {{else}}
+      <p>No colleges were selected.</p>
+    {{/if}}
+  </div>
 </body>
 </html>

@@ -1,41 +1,90 @@
 document.addEventListener("DOMContentLoaded", () => {
+  const userIdInput = document.querySelector("input[name='userId']"); // Correctly select by name
+  const userId = userIdInput ? userIdInput.value : null;
+
+  if (!userId) {
+    console.error("User ID not found");
+    alert("User ID is missing. Please log in again.");
+    return;
+  }
+
+  // Log userId for debugging
+  console.log("User ID in form:", userId);
+
+  // Parse colleges data from embedded JSON
+  const collegesDataElement = document.getElementById("collegesData");
+  const colleges = collegesDataElement ? JSON.parse(collegesDataElement.textContent) : [];
+
   const selectButtons = document.querySelectorAll(".select-btn");
-  const selectedCollegesInput = document.getElementById("selectedColleges");
   const submitButton = document.getElementById("submit-btn");
-  
   let selectedColleges = [];
 
-  // Handle select button clicks
+  // Handle select/deselect of colleges
   selectButtons.forEach((button) => {
     button.addEventListener("click", () => {
       const collegeId = button.getAttribute("data-id");
+      const priorityInput = document.querySelector(`input[name='preferences[${collegeId}]']`);
 
       if (selectedColleges.includes(collegeId)) {
         selectedColleges = selectedColleges.filter((id) => id !== collegeId);
         button.textContent = "Select";
         button.classList.remove("selected");
+        if (priorityInput) {
+          priorityInput.disabled = true; // Disable priority input
+          priorityInput.value = ""; // Clear priority value
+        }
       } else {
         selectedColleges.push(collegeId);
         button.textContent = "Deselect";
         button.classList.add("selected");
+        if (priorityInput) {
+          priorityInput.disabled = false; // Enable priority input
+        }
       }
 
-      selectedCollegesInput.value = JSON.stringify(selectedColleges);
+      // Enable or disable the submit button based on selection
       submitButton.disabled = selectedColleges.length === 0;
     });
   });
 
-  // Handle form submission via Fetch API
+  // Initially disable all priority inputs
+  document.querySelectorAll("input[name^='preferences']").forEach((input) => {
+    input.disabled = true;
+  });
+
+  // Handle form submission
   const form = document.getElementById("preferencesForm");
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
 
-    const userId = form.querySelector("input[name='userId']").value;
+    if (selectedColleges.length === 0) {
+      alert("Please select at least one college.");
+      return;
+    }
 
-    // Ensure selectedColleges is in the correct format for backend (array of objects)
-    const formattedSelectedColleges = selectedColleges.map(collegeId => ({
-      collegeId: collegeId
-    }));
+    console.log('--- Preparing to validate preferences ---');
+    const formattedPreferences = selectedColleges.map(collegeId => {
+      const priorityInput = document.querySelector(`input[name='preferences[${collegeId}]']`);
+      const rawValue = priorityInput ? priorityInput.value : 'Input not found';
+      const priority = priorityInput && priorityInput.value.trim() !== '' ? parseInt(priorityInput.value, 10) : null;
+      
+      console.log(`College ID: ${collegeId}, Raw Priority Value: "${rawValue}", Parsed Priority: ${priority}`);
+      return { collegeId, priority };
+    });
+    console.log('--- Finished formatting preferences for validation ---');
+
+    // Check if any priority is invalid for selected colleges
+    const invalidPreference = formattedPreferences.find(p => p.priority === null || isNaN(p.priority) || p.priority <= 0);
+    if (invalidPreference) {
+      // Find the specific college name for a more detailed error message
+      const collegeDetail = colleges.find(c => c._id === invalidPreference.collegeId);
+      const collegeName = collegeDetail ? collegeDetail.name : `College ID ${invalidPreference.collegeId}`;
+      alert(`Invalid priority for ${collegeName}. Ensure all selected colleges have a valid, positive priority number entered.`);
+      return;
+    }
+
+    // Log userId for debugging
+    console.log("User ID in form submission:", userId);
 
     try {
       const response = await fetch("/submit-preferences", {
@@ -43,34 +92,22 @@ document.addEventListener("DOMContentLoaded", () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           userId,
-          preferences: formattedSelectedColleges,  // Send preferences as an array of objects
+          preferences: formattedPreferences
         }),
       });
 
-      // Check if the response is valid JSON
-      const result = await response.text(); // Use text() to inspect the raw response
-      console.log("Raw server response:", result);
+      const result = await response.json();
 
-      try {
-        const parsedResult = JSON.parse(result); // Parse the response if it's valid JSON
-        if (response.ok) {
-          alert(parsedResult.message);
-          window.location.href = "/"; // Redirect to home or another page
-        } else {
-          alert(parsedResult.error || "Failed to submit preferences.");
-        }
-      } catch (error) {
-        console.error("Error parsing server response:", error);
-        alert("The server response is not valid JSON.");
+      if (response.ok) {
+        alert(result.message || "Preferences submitted successfully!");
+        window.location.href = `/success?userId=${userId}`;
+
+      } else {
+        alert(result.error || "Failed to submit preferences.");
       }
-
     } catch (error) {
       console.error("Error submitting preferences:", error);
-      alert("An unexpected error occurred.");
-      
-      // In case of an error, log the raw response body from the server
-      const errorText = await response.text();
-      console.log("Server Error Details: ", errorText);
+      alert("An unexpected error occurred. Please try again.");
     }
   });
 });
