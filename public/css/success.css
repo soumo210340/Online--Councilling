@@ -14,14 +14,15 @@
   }
   
   /* Container for Centered Content */
-  .container {
-    max-width: 800px;
-    margin: 50px auto;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  }
+/* Use .success-box for the main container (matches .hbs) */
+.success-box {
+  max-width: 800px;
+  margin: 50px auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
   
   /* Heading Styles */
   h1 {
@@ -88,7 +89,7 @@
   
   /* Responsive Design */
   @media (max-width: 768px) {
-    .container {
+    .success-box {
       padding: 15px;
     }
   

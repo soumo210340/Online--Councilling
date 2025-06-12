@@ -5,33 +5,36 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - E-Council</title>
-    <link rel="stylesheet" href="/css/common.css"> <!-- Added common.css -->
+    <link rel="stylesheet" href="/css/login.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="login-box">
-        <div class="info">
-            <h1>Login</h1>
-            <span><strong>Made with 
-                <i class="fa fa-heart"></i> by 
-                <a href="http://andytran.me"><strong>Soumo</strong></a>
-            </strong></span>
+    <div class="form">
+        <h1>Welcome Back</h1>
+        <div class="thumbnail">
+            <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/169963/hat.svg" alt="Login">
         </div>
-        <div class="form">
-            <div class="thumbnail">
-                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/169963/hat.svg" alt="Thumbnail">
+        <form action="/login" method="POST" class="login-form">
+            <div class="input-container">
+                <i class="fas fa-user"></i>
+                <input placeholder="Username" name="name" type="text" required>
             </div>
-            <form action="/login" method="POST" class="login-form">
-                <input placeholder="Name" name="name" type="text" required>
-                <br>
+            <div class="input-container">
+                <i class="fas fa-lock"></i>
                 <input placeholder="Password" name="password" type="password" required>
-                <br>
-                <button type="submit" class="btn">Login</button>
-                <p class="message">Don't have an account? 
-                    <a href="/signup">Create an account</a>
-                </p>
-            </form>
-        </div>
+            </div>
+            <button type="submit">
+                Sign In <i class="fas fa-arrow-right"></i>
+            </button>
+            <p class="message">
+                Don't have an account? <a href="/signup">Create an account</a>
+            </p>
+            <p class="message">
+                Made with <i class="fas fa-heart" style="color: #ff4b4b;"></i> by 
+                <a href="http://andytran.me"><strong>Soumo</strong></a>
+            </p>
+        </form>
     </div>
 </body>
 </html>

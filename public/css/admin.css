@@ -1,53 +1,99 @@
-/* File intentionally left blank. All styles are now in common.css */
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+/* Admin Page Styles (migrated from common.css) */
+body {
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #e0f7fa, #f0f4ff);
+  color: #333;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
+.admin-box {
+  width: 420px;
+  margin: 50px auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+  padding: 35px;
+  transition: all 0.3s ease-in-out;
+}
+.admin-box:hover {
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.15);
+  transform: translateY(-5px);
+}
+
+h1 {
+  color: #003366;
+  margin-bottom: 20px;
+  font-weight: 700;
+  text-align: center;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+form label {
+  font-size: 1em;
+  margin-bottom: 4px;
+  color: #333;
+}
+
+form input[type="text"],
+form input[type="number"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  background-color: #f8f9fa;
+  transition: border 0.3s ease, box-shadow 0.3s ease;
+}
+
+form input:focus {
+  border-color: #1e88e5;
+  outline: none;
+  box-shadow: 0 0 5px rgba(30, 136, 229, 0.3);
+  background-color: #fff;
+}
+
+form button[type="submit"] {
+  background: #1e88e5;
+  color: #fff;
+  border: none;
+  padding: 10px 15px;
+  font-size: 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+form button[type="submit"]:hover {
+  background: #1565c0;
+}
+
+@media (max-width: 480px) {
+  .admin-box {
+    padding: 15px;
+  }
+  form label {
     font-size: 14px;
-    transition: all 0.3s ease;
   }
-  
-  /* Input Focus Styles */
-  form input:focus {
-    border-color: #1e88e5;
-    outline: none;
-    box-shadow: 0 0 5px rgba(30, 136, 229, 0.3);
+  form input[type="text"],
+  form input[type="number"] {
+    font-size: 13px;
   }
-  
-  /* Submit Button */
   form button[type="submit"] {
-    background: #1e88e5;
-    color: #fff;
-    border: none;
-    padding: 10px 15px;
-    font-size: 16px;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background 0.3s ease;
+    font-size: 14px;
   }
-  
-  form button[type="submit"]:hover {
-    background: #1565c0;
-  }
-  
-  /* Responsive Design */
-  @media (max-width: 480px) {
-    form {
-      padding: 15px;
-    }
-  
-    form label {
-      font-size: 14px;
-    }
-  
-    form input[type="text"],
-    form input[type="number"] {
-      font-size: 13px;
-    }
-  
-    form button[type="submit"] {
-      font-size: 14px;
-    }
-  }
+}
   

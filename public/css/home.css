@@ -1,65 +1,93 @@
+/* Footer Styling */
+.footer {
+  width: 100%;
+  text-align: center;
+  padding: 18px;
+  font-size: 0.95em;
+  color: #666;
+  margin-top: 40px;
+}
+
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #e0f7fa, #f0f4ff);
+  color: #333;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
+.home-box {
+  max-width: 960px;
+  margin: 40px auto;
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.info {
+  width: 100%;
+  margin-bottom: 30px;
+}
+
+.info h1 {
+  color: #003366;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.info p {
+  font-size: 1.1em;
+  margin: 6px 0;
+}
 
 table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 30px;
-}
-
-table, th, td {
-  border: 1px solid #ddd;
+  margin-top: 25px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
 }
 
 th, td {
-  padding: 12px;
+  padding: 16px;
   text-align: left;
 }
 
 th {
-  background-color: var(--accent);
-  color: var(--white);
-}
-
-tr:nth-child(even) {
-  background-color: #f2f2f2;
-}
-
-/* Info Heading */
-.info h1 {
-  margin: 0 0 15px;
-  padding: 0;
-  font-size: 36px;
-  font-weight: 300;
-  color: #444;
-}
-
-/* Checkbox Styles */
-input[type="checkbox"] {
-  width: 16px;
-  height: 16px;
-  cursor: pointer;
-}
-
-/* Info Text */
-.info p {
-  color: #000000;
-  font-size: 14px;
-}
-
-/* Button */
-.select-btn {
-  background-color: #ccc;
-  border: 1px solid #999;
-  color: #000;
-  padding: 5px 10px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.select-btn.selected {
-  background-color: var(--accent);
+  background-color: #007acc;
   color: white;
-  border-color: var(--accent);
+  font-weight: 600;
+}
 
+td {
+  background-color: #f7fbff;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+button, .btn {
+  background: linear-gradient(to right, #1e90ff, #007bff);
+  color: #fff;
+  padding: 14px 22px;
+  font-weight: 600;
+  font-size: 1rem;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.3s ease;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+button:hover, .btn:hover {
+  background: linear-gradient(to right, #007bff, #0056b3);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
 /* Background Overlay */

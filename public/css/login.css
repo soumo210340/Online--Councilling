@@ -1,88 +1,159 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
 @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css');
 
-:root {
-  --white: #FFFFFF;
-  --black: #000000;
-  --accent: #EF3B3A; /* Accent color */
-  --form-width: 300px;
+/* General Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-/* Form */
+/* Body Styling */
+body {
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #e0f7fa, #f0f4ff);
+  color: #333;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+/* Login Form Container with Animation */
 .form {
-  position: relative;
-  z-index: 1;
-  background: var(--white);
-  max-width: var(--form-width);
-  margin: 0 auto 100px;
-  padding: 30px;
-  border-radius: 3px;
+  background: linear-gradient(to bottom right, #ffffff, #f8f9fa);
+  padding: 60px 40px;
+  border-radius: 15px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
   text-align: center;
+  width: 100%;
+  max-width: 700px;
+  animation: fadeIn 0.8s ease-out;
+  position: relative;
+  overflow: hidden;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Form Heading */
+.form h1 {
+  font-size: 2.5rem;
+  color: #007acc;
+  margin-bottom: 30px;
+  font-weight: 600;
+  letter-spacing: -0.5px;
 }
 
 /* Thumbnail */
 .thumbnail {
-  background: var(--accent); /* Background color for thumbnail */
-  width: 150px;
-  height: 150px;
-  margin: 0 auto 30px;
-  padding: 50px 30px;
-  border-radius: 50%;
-  box-sizing: border-box;
+  margin-bottom: 30px;
+  position: relative;
+  display: inline-block;
 }
 
-/* Thumbnail Image */
 .thumbnail img {
-  display: block;
-  width: 100%;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.thumbnail img:hover {
+  transform: scale(1.05);
+}
+
+/* Input Container */
+.input-container {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.input-container i {
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #007acc;
+  font-size: 1.1rem;
 }
 
 /* Input Fields */
 input {
-  outline: 0;
-  background: #f2f2f2;
   width: 100%;
-  border: 0;
-  margin: 0 0 15px;
-  padding: 15px;
-  border-radius: 3px;
-  box-sizing: border-box;
-  font-size: 14px;
+  padding: 15px 15px 15px 45px;
+  border: 2px solid #e1e5ea;
+  border-radius: 8px;
+  background: #ffffff;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+input:hover {
+  background: #f8f9fa;
+}
+
+input:focus {
+  border-color: #007acc;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0, 122, 204, 0.1);
 }
 
 /* Login Button */
-.sub {
-  outline: 0;
-  background: var(--accent); /* Red background for the button */
-  width: 100%;
-  border: 0;
-  padding: 15px;
-  border-radius: 3px;
-  color: var(--white);
-  font-size: 14px;
-  transition: all .3s ease;
+button {
+  background: linear-gradient(135deg, #1e90ff, #007bff);
+  color: #fff;
+  padding: 15px 30px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 500;
   cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+  margin-top: 10px;
+  position: relative;
+  overflow: hidden;
 }
 
-/* Hover Effect for Button */
-.sub:hover {
-  background: #c62828; /* Darker red on hover */
+button:hover {
+  background: linear-gradient(135deg, #007bff, #0056b3);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 123, 255, 0.2);
+}
+
+button:active {
+  transform: translateY(0);
 }
 
 /* Message Styles */
 .message {
-  margin: 15px 0 0;
-  color: #999;
-  font-size: 12px;
+  margin: 25px 0 0;
+  color: #666;
+  font-size: 0.9rem;
+  line-height: 1.5;
 }
 
 /* Message Links */
 .message a {
-  color: var(--accent); /* Red color for links */
+  color: #007acc;
   text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
 }
 
-/* Hover Effect for Message Links */
 .message a:hover {
+  color: #005c99;
   text-decoration: underline;
 }
 
@@ -162,4 +233,23 @@ body::before {
   width: auto;
   height: auto;
   transform: translateX(-50%) translateY(-50%);
+}
+
+/* Responsive Design */
+@media (max-width: 480px) {
+  .form {
+    padding: 20px;
+  }
+
+  .form h1 {
+    font-size: 1.5rem;
+  }
+
+  input {
+    font-size: 0.9rem;
+  }
+
+  button {
+    font-size: 0.9rem;
+  }
 }
